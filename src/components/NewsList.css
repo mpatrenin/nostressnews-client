@@ -1,0 +1,13 @@
+.news-item {
+  animation: fadeInNews 1s;
+  animation-fill-mode: backwards;
+}
+
+@keyframes fadeInNews {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
