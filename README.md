@@ -1,48 +1,38 @@
-# StressNews
+# StressNews Client
 
-StressNews is a full-stack web application for browsing news articles filtered by stress level and tags. It consists of a React client and a Node.js/Express server.
+This is the frontend part of StressNews app. It allows users to browse news articles, filter by stress level and tags, and interact with the backend API.
+
+## Main App
+- [Live App](https://stressnews-client-940cee89049b.herokuapp.com/)
+- [Server Source Code](https://github.com/mpatrenin/nostressnews-server)
 
 ## Project Structure
 
 - `client/` — React frontend
 - `server/` — Node.js/Express backend API
 
-## Setup & Development
+## Features
+- Browse and filter news articles
+- Stress slider and popular tags
+- Responsive design
+- Deployed on Heroku
 
-### Client
-```bash
-cd client
-npm install
-npm start
-```
+## Getting Started
+1. Install dependencies: `npm install`
+2. Start client: `npm start`
+3. Environment: Set API URL in `.env`
 
-### Server
-```bash
-cd server
-npm install
-npm run build
-npm start
-```
+## Deployment
+- Deployed on Heroku
+- See server README for backend setup
 
-The server runs on port 5000 by default and exposes `/api/news`.
-
-## Environment Variables
-
-You can set environment variables in `.env` files in the client and server folders as needed (e.g., API URLs, secrets).
-
-## Building for Production
-
-To create an optimized production build of the client:
-```bash
-cd client
-npm run build
-```
-The build will be output to the `client/build` folder.
+---
+For the server app, see [server/README.md](https://github.com/mpatrenin/nostressnews-server/README.md)
 
 ## Deployment
 
-You can deploy the contents of the `client/build` folder to any static hosting service (Netlify, Vercel, GitHub Pages, etc.).
-The server can be deployed to any Node.js hosting platform (Heroku, Render, etc.).
+You can deploy the contents of the `client/build` folder to any static hosting service.
+The server can be deployed to any Node.js hosting platform.
 
 ## API
 
