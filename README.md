@@ -4,7 +4,7 @@ This is the frontend part of StressNews app. It allows users to browse news arti
 
 ## Main App
 - [Live App](https://stressnews-client-940cee89049b.herokuapp.com/)
-- [Server Source Code](https://github.com/mpatrenin/nostressnews-server)
+- [Server Source Code](https://github.com/mpatrenin/stressnews-server)
 
 ## Project Structure
 
@@ -26,14 +26,10 @@ This is the frontend part of StressNews app. It allows users to browse news arti
 - Deployed on Heroku
 - See server README for backend setup
 
----
-For the server app, see [server/README.md](https://github.com/mpatrenin/nostressnews-server/README.md)
-
 ## Deployment
 
 You can deploy the contents of the `client/build` folder to any static hosting service.
 The server can be deployed to any Node.js hosting platform.
 
 ## API
-
 - `GET /api/news` — Returns a list of news articles.
