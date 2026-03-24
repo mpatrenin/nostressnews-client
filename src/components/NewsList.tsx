@@ -20,21 +20,47 @@ const NewsList: React.FC<NewsListProps> = ({ stressLevel, selectedTags = [], set
   const [news, setNews] = useState<NewsItem[]>([]);
   const [allNews, setAllNews] = useState<NewsItem[]>([]);
   const [loading, setLoading] = useState(false);
+  const [error, setError] = useState(false);
 
   const fetchNews = useCallback(async () => {
     setLoading(true);
+    setError(false);
     try {
-  const apiBaseUrl = process.env.REACT_APP_API_URL || '';
-  const response = await axios.get(`${apiBaseUrl}/api/news`);
+      const apiBaseUrl = process.env.REACT_APP_API_URL || '';
+      const response = await axios.get(`${apiBaseUrl}/api/news`);
       const fetchedNews = response.data;
       setAllNews(fetchedNews);
       setNews(filterNews(fetchedNews, stressLevel, selectedTags));
-    } catch (error) {
-      console.error('Error fetching news:', error);
+    } catch (err) {
+      console.error('Error fetching news:', err);
+      setError(true);
     } finally {
       setLoading(false);
     }
   }, [stressLevel, selectedTags]);
+
+  // Silent background refresh — preserves current filtered view while updating allNews
+  const silentRefresh = useCallback(async () => {
+    try {
+      const apiBaseUrl = process.env.REACT_APP_API_URL || '';
+      const response = await axios.get(`${apiBaseUrl}/api/news`);
+      const fetchedNews = response.data;
+      setAllNews(fetchedNews);
+      setNews(filterNews(fetchedNews, stressLevel, selectedTags));
+    } catch (err) {
+      console.error('Silent refresh failed:', err);
+    }
+  }, [stressLevel, selectedTags]);
+
+  useEffect(() => {
+    const handleVisibilityChange = () => {
+      if (document.visibilityState === 'visible') {
+        silentRefresh();
+      }
+    };
+    document.addEventListener('visibilitychange', handleVisibilityChange);
+    return () => document.removeEventListener('visibilitychange', handleVisibilityChange);
+  }, [silentRefresh]);
 
   useEffect(() => {
     if (!allNews.length) {
@@ -105,6 +131,17 @@ const NewsList: React.FC<NewsListProps> = ({ stressLevel, selectedTags = [], set
         <p className={fade ? 'fade-loading-msg-in' : 'fade-loading-msg-out'}>
           {loadingMessages[loadingMsgIdx]}
         </p>
+      </div>
+    );
+  }
+
+  if (error) {
+    return (
+      <div className="loading-spinner">
+        <p>Could not load news. Please check your connection.</p>
+        <button onClick={fetchNews} style={{ marginTop: '1em', padding: '0.5em 1.5em', cursor: 'pointer' }}>
+          Retry
+        </button>
       </div>
     );
   }
