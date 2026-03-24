@@ -1,35 +1,45 @@
 # StressNews Client
 
-This is the frontend part of StressNews app. It allows users to browse news articles, filter by stress level and tags, and interact with the backend API.
+Frontend for the [StressNews](https://stressnews-client-940cee89049b.herokuapp.com/) app — browse news filtered by stress level and tags.
 
-## Main App
+## Links
 - [Live App](https://stressnews-client-940cee89049b.herokuapp.com/)
 - [Server Source Code](https://github.com/mpatrenin/stressnews-server)
 
-## Project Structure
-
-- `client/` — React frontend
-- `server/` — Node.js/Express backend API
-
 ## Features
-- Browse and filter news articles
-- Stress slider and popular tags
+- Stress slider to filter news by emotional intensity (very low → very high)
+- Tag-based filtering with popular tags derived from the current feed
+- Error state with retry on API failure
+- Silent background refresh when returning to the tab
 - Responsive design
-- Deployed on Heroku
 
 ## Getting Started
-1. Install dependencies: `npm install`
-2. Start client: `npm start`
-3. Environment: Set API URL in `.env`
+
+```bash
+npm install
+```
+
+Create a `.env` file in this directory:
+
+```
+REACT_APP_API_URL=http://localhost:5000
+```
+
+Then start the dev server:
+
+```bash
+npm start
+```
 
 ## Deployment
-- Deployed on Heroku
-- See server README for backend setup
 
-## Deployment
+Build and deploy to Heroku:
 
-You can deploy the contents of the `client/build` folder to any static hosting service.
-The server can be deployed to any Node.js hosting platform.
+```bash
+npm run build
+git push heroku master
+```
 
 ## API
-- `GET /api/news` — Returns a list of news articles.
+
+`GET /api/news` — Returns a list of news articles with stress level, tags, and source info.
