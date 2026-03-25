@@ -1,46 +1,47 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 
 const StressSlider: React.FC<{ value: number; onChange: (value: number) => void }> = ({ value, onChange }) => {
   const [localValue, setLocalValue] = useState(value);
+  const [containerWidth, setContainerWidth] = useState(220);
+  const containerRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
-    const timeout = setTimeout(() => {
-      onChange(localValue);
-    }, 300);
+    const el = containerRef.current;
+    if (!el) return;
+    setContainerWidth(el.offsetWidth);
+    const ro = new ResizeObserver(() => setContainerWidth(el.offsetWidth));
+    ro.observe(el);
+    return () => ro.disconnect();
+  }, []);
+
+  useEffect(() => {
+    const timeout = setTimeout(() => onChange(localValue), 300);
     return () => clearTimeout(timeout);
   }, [localValue, onChange]);
 
-  // Map value to stress level and emoji
   const getStressLevelEmoji = (value: number) => {
-    if (value <= 20) return '😌'; // veryLow
-    if (value <= 40) return '🙂'; // low
-    if (value <= 60) return '😐'; // medium
-    if (value <= 80) return '😟'; // high
-    return '😱'; // veryHigh
+    if (value <= 20) return '😌';
+    if (value <= 40) return '🙂';
+    if (value <= 60) return '😐';
+    if (value <= 80) return '😟';
+    return '😱';
   };
 
-  // Calculate thumb position for overlay
-  const sliderMin = 0;
-  const sliderMax = 100;
-  const trackWidth = 220; // px, should match CSS width
-  const percent = (localValue - sliderMin) / (sliderMax - sliderMin);
-  // Place emoji so its center is flush with slider edges at min/max
-  const left = percent * trackWidth;
+  const emojiSize = 32;
+  const percent = localValue / 100;
+  const left = (emojiSize / 2) + percent * (containerWidth - emojiSize);
 
   return (
-    <div className="stress-slider">
+    <div className="stress-slider" ref={containerRef}>
       <input
         type="range"
-        min={sliderMin}
-        max={sliderMax}
+        min={0}
+        max={100}
         value={localValue}
         onChange={(e) => setLocalValue(Number(e.target.value))}
         className="stress-slider-input"
       />
-      <span
-        className="stress-slider-emoji"
-        style={{ left }}
-      >
+      <span className="stress-slider-emoji" style={{ left }}>
         {getStressLevelEmoji(localValue)}
       </span>
     </div>

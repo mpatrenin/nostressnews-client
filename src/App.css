@@ -168,62 +168,60 @@ html {
   margin-right: 1em;
   position: relative;
   width: 220px;
-  height: 32px;
+  max-width: 220px;
+  min-width: 120px;
+  flex-shrink: 1;
+  height: 44px;
+  overflow: hidden;
 }
 .stress-slider-input {
+  -webkit-appearance: none;
+  appearance: none;
   width: 100%;
-  height: 8px;
-  background: linear-gradient(to right, #4caf50, #ff9800, #f44336);
-  border-radius: 5px;
+  height: 44px;
+  background: transparent;
   outline: none;
+  cursor: pointer;
   opacity: 0.9;
   transition: opacity 0.2s;
 }
 .stress-slider-input:hover {
-  cursor: pointer;
   opacity: 0.75;
 }
+/* Transparent thumb — 32px wide so travel range matches emoji */
 .stress-slider-input::-webkit-slider-thumb {
   -webkit-appearance: none;
   appearance: none;
   width: 32px;
-  height: 32px;
-  background: transparent !important;
-  border: none !important;
-  box-shadow: none !important;
-  -webkit-box-shadow: none !important;
-  opacity: 0 !important;
+  height: 44px;
+  background: transparent;
+  border: none;
+  box-shadow: none;
 }
 .stress-slider-input::-moz-range-thumb {
   width: 32px;
-  height: 32px;
+  height: 44px;
   background: transparent;
   border: none;
   box-shadow: none;
 }
-.stress-slider-input::-ms-thumb {
-  width: 32px;
-  height: 32px;
-  background: transparent;
-  border: none;
-  box-shadow: none;
-}
+/* Gradient track — inset by 16px (half emoji width) on each side
+   so track ends align with emoji center at min/max values */
 .stress-slider-input::-webkit-slider-runnable-track {
   height: 8px;
+  margin: 0 16px;
   background: linear-gradient(to right, #4caf50, #ff9800, #f44336);
   border-radius: 5px;
 }
-.stress-slider-input::-ms-fill-lower {
-  background: #4caf50;
-  border-radius: 5px;
-}
-.stress-slider-input::-ms-fill-upper {
-  background: #f44336;
+.stress-slider-input::-moz-range-track {
+  height: 8px;
+  margin: 0 16px;
+  background: linear-gradient(to right, #4caf50, #ff9800, #f44336);
   border-radius: 5px;
 }
 .stress-slider-emoji {
   position: absolute;
-  top: 8px;
+  top: 50%;
   transform: translate(-50%, -50%);
   width: 32px;
   height: 32px;
